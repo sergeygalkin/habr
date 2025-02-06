@@ -1,0 +1,50 @@
+# code: language=dockercompose
+
+services:
+  victoria-logs:
+    image: victoriametrics/victoria-logs:v1.8.0-victorialogs
+    volumes:
+      - /home/prometheus/victoria-logs/data:/vlstorage
+    command:
+      - --storageDataPath=/vlstorage
+      - --retentionPeriod=100d  # Аналог хранения данных
+      - --syslog.listenAddr.udp=:5514
+      - --syslog.listenAddr.tcp=:5514
+      - --syslog.streamFields.tcp='["hostname","app_name","priority","facility","severity"]'
+      - --syslog.streamFields.udp='["hostname","app_name","priority","facility","severity"]'
+    ports:
+      - 9428:9428
+      - 5514:5514
+      - 5514:5514/udp
+    restart: always
+    user: "1002:1002"
+  loki:
+    image: grafana/loki:3.3.2
+    user: "1002:1002"
+    volumes:
+      - /home/prometheus/etc/loki:/etc/loki/
+      - /home/prometheus/loki/data:/loki
+      - /etc/timezone:/etc/timezone
+      - /usr/share/zoneinfo/Europe/Saratov:/etc/localtime
+    restart: always
+    ports:
+      - "3100:3100"
+      - "9096:9096"
+    command: -config.file=/etc/loki/loki-local-config.yaml
+    deploy:
+      mode: global
+
+  promtail:
+    command: -config.file=/etc/promtail/promtail-local-config.yaml
+    image: grafana/promtail:3.3.2
+    ports:
+      - "9080:9080"
+      - "1514:1514"
+    restart: always
+    volumes:
+      - /home/prometheus/etc/promtail:/etc/promtail
+      - /var/log:/var/log
+      - /etc/timezone:/etc/timezone
+      - /usr/share/zoneinfo/Europe/Saratov:/etc/localtime
+    deploy:
+      mode: global

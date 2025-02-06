@@ -1,0 +1,60 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+  log_level: warn
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: syslog
+    syslog:
+      listen_address: 0.0.0.0:1514
+      listen_protocol: tcp
+      idle_timeout: 60s
+      label_structured_data: true
+      labels:
+        job: "syslog"
+    relabel_configs:
+      - source_labels: [__syslog_message_hostname]
+        target_label: host
+      - source_labels: [__syslog_message_severity]
+        target_label: level
+    pipeline_stages:
+      - match:
+          selector: '{job="syslog"}'
+          stages:
+            # 📌 Извлекаем source_ip для обоих случаев:
+            # 1. UDP/TCP -> 172.111.38.128:24003->109.195.19.234:6881
+            # 2. ICMP    -> 10.11.0.30->77.91.127.103
+            - regex:
+                expression: 'proto (?P<proto>\w+)(?: \(.+\))?, (?P<source_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<source_port>\d+))?->'
+            # 📌 GeoIP: Определяем город, страну и координаты для source_ip
+            - geoip:
+                source: source_ip
+                db: /etc/promtail/GeoLite2-City.mmdb
+                db_type: "city"
+            - labels:
+                routerboard:
+                proto:
+                source_ip:
+                source_port:
+                geoip_city_name:
+                geoip_country_name:
+                geoip_latitude:
+                geoip_longitude:
+            - labeldrop:
+                - geoip_postal_code
+                - geoip_subdivision_code
+                - service_name
+                - connection_hostname
+            - timestamp:
+                format: 02.01.2006 15:04:05
+                source: time
+                location: Europe/Samara
+            - output:
+                source: message
+                format: json
