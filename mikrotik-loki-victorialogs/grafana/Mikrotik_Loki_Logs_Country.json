@@ -1,0 +1,209 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Mikrotik Loki Logs",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 31,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "ae406641-7abf-4646-b291-089004ceac97"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 13,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "dedupStrategy": "none",
+        "enableInfiniteScrolling": false,
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "11.5.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "ae406641-7abf-4646-b291-089004ceac97"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": "{host=\"MikroTik\"} |= \"dnat\" | pattern `<_> src-mac <_>, proto <_>, <src_ip>:<src_port>-><dst_ip>:<dst_port>, <_>`\n| line_format \"{{.src_ip}}: Country:{{.geoip_country_name}}, City:{{.geoip_city_name}} \" ",
+          "maxLines": 50,
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Incoming connections",
+      "type": "logs"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "ae406641-7abf-4646-b291-089004ceac97"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 11,
+        "x": 13,
+        "y": 0
+      },
+      "id": 9,
+      "options": {
+        "displayLabels": [],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "percent",
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "ae406641-7abf-4646-b291-089004ceac97"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": " count by(geoip_country_name) (rate({host=\"MikroTik\"} |= `dnat` [$__auto] ) ) ",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Incoming connections by country",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "ae406641-7abf-4646-b291-089004ceac97"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 7,
+      "options": {
+        "dedupStrategy": "none",
+        "enableInfiniteScrolling": false,
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "11.5.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "ae406641-7abf-4646-b291-089004ceac97"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": "{host=\"MikroTik\"} |= \"dnat\" ",
+          "maxLines": 50,
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "All incoming connection",
+      "type": "logs"
+    }
+  ],
+  "preload": false,
+  "refresh": "1m",
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Mikrotik Loki Logs Country",
+  "uid": "fec0yvm5hmz28c",
+  "version": 53,
+  "weekStart": ""
+}
