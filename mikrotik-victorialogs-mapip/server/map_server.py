@@ -7,7 +7,7 @@ from collections import defaultdict
 
 # Configuration
 GEOIP_DB_PATH = "GeoLite2-City.mmdb"  # Path to GeoLite2 database
-API_URL = "http://x.x.x.x:9428/select/logsql/query"  # URL to fetch IP data
+API_URL = "http://victoria-logs:9428/select/logsql/query"  # URL to fetch IP data
 API_QUERY = "snat _time:1d | extract \", proto <proto>, <src-ip>:<src-port>-><dst-ip>:<dst-port>, NAT\" from _msg | stats by (dst-ip) count() dst-ip-count | sort (dst-ip-count) desc limit 1000"
 
 app = Flask(__name__)
