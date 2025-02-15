@@ -1,6 +1,7 @@
 # code: language=dockercompose
 volumes:
   vlstorage: {}
+  grafana: {}
 services:
   victoria-logs:
     image: victoriametrics/victoria-logs:v1.8.0-victorialogs
@@ -25,7 +26,9 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./data/grafana:/var/lib/grafana
+      - grafana:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
     restart: always
     environment:
       - GF_INSTALL_PLUGINS=victoriametrics-logs-datasource,yesoreyeram-infinity-datasource

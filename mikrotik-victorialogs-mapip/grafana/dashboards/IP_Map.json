@@ -24,7 +24,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "P33200A5250446E19"
+        "uid": "geoip"
       },
       "fieldConfig": {
         "defaults": {
@@ -115,7 +115,7 @@
           "columns": [],
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
-            "uid": "P33200A5250446E19"
+            "uid": "geoip"
           },
           "filters": [],
           "format": "table",
@@ -143,7 +143,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "P33200A5250446E19"
+        "uid": "geoip"
       },
       "fieldConfig": {
         "defaults": {
@@ -202,7 +202,7 @@
           "columns": [],
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
-            "uid": "P33200A5250446E19"
+            "uid": "geoip"
           },
           "filters": [],
           "format": "table",
@@ -224,7 +224,7 @@
     {
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
-        "uid": "P33200A5250446E19"
+        "uid": "geoip"
       },
       "fieldConfig": {
         "defaults": {
@@ -283,7 +283,7 @@
           "columns": [],
           "datasource": {
             "type": "yesoreyeram-infinity-datasource",
-            "uid": "P33200A5250446E19"
+            "uid": "geoip"
           },
           "filters": [],
           "format": "table",
@@ -292,7 +292,7 @@
           "root_selector": "",
           "source": "url",
           "type": "json",
-          "url": "http://10.115.0.50:5555/country_data",
+          "url": "http://geoip-service:5555/country_data",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -319,7 +319,7 @@
   },
   "timezone": "browser",
   "title": "IP Map",
-  "uid": "cecj9yr92us5cb",
+  "uid": "geiop",
   "version": 51,
   "weekStart": ""
 }
