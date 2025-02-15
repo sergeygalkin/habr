@@ -1,9 +1,11 @@
 # code: language=dockercompose
+volumes:
+  vlstorage: {}
 services:
   victoria-logs:
     image: victoriametrics/victoria-logs:v1.8.0-victorialogs
     volumes:
-      - /home/prometheus/victoria-logs/data:/vlstorage
+      - vlstorage:/vlstorage
     command:
       - --storageDataPath=/vlstorage
       - --retentionPeriod=100d
@@ -16,9 +18,6 @@ services:
       - 5514:5514
       - 5514:5514/udp
     restart: always
-    user: "1002:1002"
-    depends_on:
-      - victoria-metrics
     deploy:
       mode: global
   grafana:
@@ -27,15 +26,12 @@ services:
       - 3000:3000
     volumes:
       - ./data/grafana:/var/lib/grafana
-    user: "1002:1002"
     restart: always
     environment:
       - GF_INSTALL_PLUGINS=victoriametrics-logs-datasource,yesoreyeram-infinity-datasource
       - GF_SECURITY_ADMIN_PASSWORD=SuperSecret
   geoip-service:
     restart: always
-    volumes:
-      - ./data/geoip-service:/data
     ports:
       - 5555:5555
     build: ./geoip-service
