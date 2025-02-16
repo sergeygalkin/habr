@@ -205,7 +205,7 @@
           "root_selector": "",
           "source": "url",
           "type": "json",
-          "url": "http://geoip-service:5555/country_data?ip=${ip}&time=${time}",
+          "url": "http://geoip-service:5555/city_data?ip=${ip}&time=${time}",
           "url_options": {
             "data": "",
             "method": "GET"
