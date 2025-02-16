@@ -131,7 +131,7 @@
           }
         }
       ],
-      "title": "New connections to  IP ",
+      "title": "New connections to  IP (last ${time})",
       "type": "geomap"
     },
     {
@@ -212,7 +212,7 @@
           }
         }
       ],
-      "title": "New connections to IP by only know cities (last 1d)",
+      "title": "New connections to IP by only know cities (last ${time})",
       "type": "piechart"
     },
     {
@@ -293,7 +293,7 @@
           }
         }
       ],
-      "title": "New connections to IP by country (last 1d)",
+      "title": "New connections to IP by country (last ${time})",
       "type": "piechart"
     }
   ],
@@ -324,7 +324,7 @@
           "text": "1d",
           "value": "1d"
         },
-        "description": "count and postfix on exmaple 1d, 20h, 30m",
+        "description": "Count and postfix. On example 1d, 20h, 30m",
         "name": "time",
         "options": [
           {
