@@ -8,7 +8,11 @@ from collections import defaultdict
 # Configuration
 GEOIP_DB_PATH = "/data/GeoLite2-City.mmdb"  # Path to GeoLite2 database
 API_URL = "http://victoria-logs:9428/select/logsql/query"  # URL to fetch IP data
-API_QUERY = "snat _time:1d | extract \", proto <proto>, <src-ip>:<src-port>-><dst-ip>:<dst-port>, NAT\" from _msg | stats by (dst-ip) count() dst-ip-count | sort (dst-ip-count) desc limit 1000"
+# Tested on MikroTik 7.17.2
+API_QUERY = "snat _time:1d | extract ', proto <proto>, <src-ip>:<src-port>-><dst-ip>:<dst-port>, NAT' from _msg | stats by (dst-ip) count() dst-ip-count | sort (dst-ip-count) desc limit 1000"
+
+# MikroTik on 6.x versions looks like it doesn't have substring 'connection-state:new,snat' so you can use this query:
+# API_QUERY = "* _time:1d | extract ', proto <proto>, <src-ip>:<src-port>-><dst-ip>:<dst-port>, len' from _msg | stats by (dst-ip) count() dst-ip-count | sort (dst-ip-count) desc limit 1000"
 
 app = Flask(__name__)
 
