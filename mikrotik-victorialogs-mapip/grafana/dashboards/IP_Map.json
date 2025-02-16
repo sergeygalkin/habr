@@ -124,15 +124,9 @@
           "root_selector": "",
           "source": "url",
           "type": "json",
-          "url": "http://geoip-service:5555/geo_data",
+          "url": "http://geoip-service:5555/geo_data?ip=${ip}&time=${time}",
           "url_options": {
             "data": "",
-            "headers": [
-              {
-                "key": "header-key",
-                "value": "header-value"
-              }
-            ],
             "method": "GET"
           }
         }
@@ -211,7 +205,7 @@
           "root_selector": "",
           "source": "url",
           "type": "json",
-          "url": "http://geoip-service:5555/city_data",
+          "url": "http://geoip-service:5555/country_data?ip=${ip}&time=${time}",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -292,7 +286,7 @@
           "root_selector": "",
           "source": "url",
           "type": "json",
-          "url": "http://geoip-service:5555/country_data",
+          "url": "http://geoip-service:5555/country_data?ip=${ip}&time=${time}",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -308,7 +302,41 @@
   "schemaVersion": 40,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "text": "*",
+          "value": "*"
+        },
+        "name": "ip",
+        "options": [
+          {
+            "selected": true,
+            "text": "*",
+            "value": "*"
+          }
+        ],
+        "query": "*",
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "text": "1d",
+          "value": "1d"
+        },
+        "description": "count and postfix on exmaple 1d, 20h, 30m",
+        "name": "time",
+        "options": [
+          {
+            "selected": true,
+            "text": "1d",
+            "value": "1d"
+          }
+        ],
+        "query": "1d",
+        "type": "textbox"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -319,7 +347,7 @@
   },
   "timezone": "browser",
   "title": "IP Map",
-  "uid": "geiop",
-  "version": 51,
+  "uid": "geoip",
+  "version": 52,
   "weekStart": ""
 }
